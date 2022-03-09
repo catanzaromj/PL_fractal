@@ -15,6 +15,7 @@ from persim import plot_diagrams
 
 #Fixed points:
 pi = np.pi
+I = np.identity(2)
     
 x1 = np.array([0,0])
 x2 = np.array([0,1])
@@ -62,7 +63,7 @@ def phi5(x):
     return m*x + (1-m)*x5
 
 def phi6(x):
-    return np.transpose(m * R @ np.transpose(x)) + (1-m)*x6
+    return np.transpose(m * R @ np.transpose(x)) + (I - m*R)@x6
 #%%
 SArray = fixed
 
@@ -95,7 +96,7 @@ print(Dgmprox2[0][-6:,])
 SArray = fixed
 
 #Choose a scale to compute to
-scale = 3
+scale = 1
 
 
 for _ in range(scale):
@@ -116,7 +117,7 @@ plt.figure(figsize=(10, 10))
 x = SArray[:, 0]
 y = SArray[:, 1]
 plt.scatter(SArray[:, 0], SArray[:, 1], linewidth=0.1, Color="blue", zorder=2)
-plt.title("$S_3$", size=20)
+plt.title("$S_1$", size=20)
 
 
 #%% Compute the landscape
