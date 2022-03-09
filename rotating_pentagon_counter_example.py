@@ -40,12 +40,12 @@ plt.title("$S_0$", size = 20)
 
 #%% Define the IFS
 m = 1/5
-theta = pi/20
+theta = pi/3
 R = np.array([[np.cos(theta), -np.sin(theta)],[np.sin(theta), np.cos(theta)]])
 
 
 def phi1(x):
-    return R @ x 
+    return m * x 
 
 
 def phi2(x):
@@ -62,16 +62,16 @@ def phi5(x):
     return m*x + (1-m)*x5
 
 def phi6(x):
-    return m*x + (1-m)*x6
+    return np.transpose(m * R @ np.transpose(x)) + (1-m)*x6
 #%%
 SArray = fixed
 
 #Choose a scale to compute to
-scale = 3
+scale = 2
 
 
 for _ in range(scale):
-    out1 = phi1(SArray)
+    out1 = np.transpose(phi1(np.transpose(SArray)))
     out2 = phi2(SArray)
     out3 = phi3(SArray)
     out4 = phi4(SArray)
@@ -86,10 +86,39 @@ x = SArray[:, 0]
 y = SArray[:, 1]
 plt.scatter(SArray[:, 0], SArray[:, 1], linewidth=0.1, Color="blue", zorder=2)
 plt.title("$S_2$", size=20)
+
 #%% Compute the persistence
-Dgmprox3 = ripser(SArray, maxdim=0)["dgms"]
+Dgmprox2 = ripser(SArray, maxdim=0)["dgms"]
+plot_diagrams(Dgmprox2, show=True, lifetime=False)
+print(Dgmprox2[0][-6:,])
+#%%
+SArray = fixed
+
+#Choose a scale to compute to
+scale = 3
+
+
+for _ in range(scale):
+    out1 = np.transpose(phi1(np.transpose(SArray)))
+    out2 = phi2(SArray)
+    out3 = phi3(SArray)
+    out4 = phi4(SArray)
+    out5 = phi5(SArray)
+    out6 = phi6(SArray)
+    SArray = np.concatenate((out1, out2, out3, out4, out5, out6), axis=0)
+#%% Compute the persistence
+Dgmprox = ripser(SArray, maxdim=0)["dgms"]
 plot_diagrams(Dgmprox, show=True, lifetime=False)
-print(Dgmprox3)
+print(Dgmprox[0][-6:])
+#%% Plot at scale
+plt.figure(figsize=(10, 10))
+# Color the shape
+x = SArray[:, 0]
+y = SArray[:, 1]
+plt.scatter(SArray[:, 0], SArray[:, 1], linewidth=0.1, Color="blue", zorder=2)
+plt.title("$S_3$", size=20)
+
+
 #%% Compute the landscape
 Landprox = PersLandscapeApprox(dgms=Dgmprox, hom_deg=0)
 ttl = f"PL of Cantor triangle at scale {scale}"
