@@ -31,11 +31,11 @@ x6 = np.array([np.sin(8*pi/5), np.cos(8*pi/5)])
 # x6 = np.array([np.sin(8*pi/5), np.cos(8*pi/5)])
 
 
-fixed = np.array([x1,x2,x3,x4,x5, x6])
+extreme = np.array([x2,x3,x4,x5, x6])
 
 #%% Plot the fixed points
 plt.figure(figsize = (10,10))
-plt.scatter(fixed[:, 0], fixed[:, 1], linewidth=0.1, Color="blue", zorder=2)
+plt.scatter(extreme[:, 0], extreme[:, 1], linewidth=0.1, Color="blue", zorder=2)
 plt.title("$S_0$", size = 20)
 
 #%% Define the IFS
@@ -64,7 +64,7 @@ def phi5(x):
 def phi6(x):
     return m*x + (1-m)*x6
 #%%
-SArray = fixed
+SArray = extreme
 
 #Choose a scale to compute to
 scale = 3
@@ -87,9 +87,9 @@ y = SArray[:, 1]
 plt.scatter(SArray[:, 0], SArray[:, 1], linewidth=0.1, Color="blue", zorder=2)
 plt.title("$S_2$", size=20)
 #%% Compute the persistence
-Dgmprox3 = ripser(SArray, maxdim=0)["dgms"]
+Dgmprox = ripser(SArray, maxdim=0)["dgms"]
 plot_diagrams(Dgmprox, show=True, lifetime=False)
-print(Dgmprox3)
+print(Dgmprox)
 #%% Compute the landscape
 Landprox = PersLandscapeApprox(dgms=Dgmprox, hom_deg=0)
 ttl = f"PL of Cantor triangle at scale {scale}"

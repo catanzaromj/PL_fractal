@@ -32,7 +32,7 @@ x6 = np.array([np.sin(8*pi/5), np.cos(8*pi/5)])
 # x6 = np.array([np.sin(8*pi/5), np.cos(8*pi/5)])
 
 
-fixed = np.array([x1,x2,x3,x4,x5, x6])
+fixed = np.array([x2,x3,x4,x5, x6])
 
 #%% Plot the fixed points
 plt.figure(figsize = (10,10))
@@ -96,7 +96,7 @@ print(Dgmprox2[0][-6:,])
 SArray = fixed
 
 #Choose a scale to compute to
-scale = 1
+scale = 3
 
 
 for _ in range(scale):
